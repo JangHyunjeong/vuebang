@@ -1,35 +1,42 @@
 <template>
   <div>
-    <h2>3. click event</h2>
+    <h2>4. v-if 모달창 만들기</h2>
     <div class="menu">
         <a v-for="(item, idx) in menuItem" :key="idx">{{ item }}</a>
+    </div>
+  </div>
+
+  <!-- 
+  #1. 동적인 UI 만드는법
+  1. UI의 현재 상태를 데이터로 저장해둠
+  2. 데이터에 따라 UI가 어떻게 보일지 작성
+  
+  #2. v-if
+  <div v-if="조건식">
+  조건식이 참일때만, 해당 엘리먼트를 마크업
+  -->
+
+  <div class="modal-wrap" v-if="modalIsOepn">
+    <div class="modal">
+      <h4>상세 페이지
+        <button @click="closeModal">닫기</button>
+      </h4>  
+      <p>상세페이지 설명 영역입니다.</p>
     </div>
   </div>
 
   <div class="product-list">
     <div v-for="(item, idx) in productList" :key="idx" class="product-item">
       <div class="product-item-img">
-        <!-- 이미지를 이렇게 넣으면 정상적으로 출력 안된다. require을 사용하자. -->
-        <!-- <img src="]`./assets/room${idx}.jpg`"> -->
         <img :src="require(`./assets/room${idx}.jpg`)">
         
       </div>
-      <h4>{{ item.name }}</h4>
+      <h4 @click="openModal" class="product-item-name">{{ item.name }}</h4>
       <p>{{ item.price }}</p>
       <button @click="increase(idx)">허위매물 신고</button>
       <span>신고 수 : {{item.reported}}</span>
     </div>
 
-    <!-- #3. click event 기본형태
-      1) v-on:click="자바스크립트 코드"
-      2) @click="자바스크립트 코드"
-
-      3) 함수는 이런식으로 @click="" 사이에 바로 넣어도 되고.. 
-        method에서 함수를 따로 정의해도 된다.  
-      <button @click="신고수++">허위매물 신고</button>
-
-      기타) click 뿐 아니라, @mouseover="", @drag="" 등 다양한 이벤트 사용 가능
-    -->
     
   </div>
 </template>
@@ -40,8 +47,11 @@
 export default {
   name: "App",
   // 필요한 데이터는 data() 바구니에 넣어줘야함.
+  // 이 데이터 저장 공간을 state라고한다.
+  // ui의 상태를 저장하는 공간이기도 함.
   data() {
     return {
+      modalIsOepn: false,
       productList: [
         {
           name : "역삼동원룸",
@@ -68,6 +78,15 @@ export default {
   methods: {
     increase(idx){
       this.productList[idx].reported++;
+    },
+
+    // 모달 열기 함수 추가
+    openModal() {
+      this.modalIsOepn = true;
+    },
+
+    closeModal(){
+      this.modalIsOepn = false;
     }
   },
   components: {},
@@ -75,13 +94,56 @@ export default {
 </script>
 
 <style>
+body {
+  margin: 0;
+  padding: 0;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+button {
+  cursor: pointer;
+}
+.modal-wrap {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  background-color: rgba(0,0,0,0.5);
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+}
+.modal {
+  width: 100%;
+  min-height: 200px;
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+}
+.modal h4 {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+.modal button {
+  display: block;
+  width: 50px;
+  height: 30px;
+  background: black;
+  color: #fff;
+  font-size: 14px;
+  border: 0;
+  border-radius: 5px;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 
 .menu {
@@ -106,6 +168,7 @@ export default {
   height: 0;
   padding-bottom: 60%;
   position: relative;
+  margin-bottom: 10px;
 }
 .product-item-img img {
   display: block;
@@ -115,5 +178,12 @@ export default {
   left: 0;
   top: 0;
   object-fit: cover;
+}
+.product-item-name {
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+.product-item p {
+   margin-bottom: 5px
 }
 </style>

@@ -1,88 +1,59 @@
 <template>
   <div>
-    <h2>4. v-if 모달창 만들기</h2>
+    <h2>5. import/export</h2>
     <div class="menu">
         <a v-for="(item, idx) in menuItem" :key="idx">{{ item }}</a>
     </div>
   </div>
-
-  <!-- 
-  #1. 동적인 UI 만드는법
-  1. UI의 현재 상태를 데이터로 저장해둠
-  2. 데이터에 따라 UI가 어떻게 보일지 작성
-  
-  #2. v-if
-  <div v-if="조건식">
-  조건식이 참일때만, 해당 엘리먼트를 마크업
-  -->
 
   <div class="modal-wrap" v-if="modalIsOepn">
     <div class="modal">
       <h4>상세 페이지
         <button @click="closeModal">닫기</button>
       </h4>  
-      <p>상세페이지 설명 영역입니다.</p>
+      <p>{{content}}</p>
     </div>
   </div>
 
   <div class="product-list">
-    <div v-for="(item, idx) in productList" :key="idx" class="product-item">
+    <div v-for="(item, idx) in productList" :key="item.id" class="product-item">
       <div class="product-item-img">
-        <img :src="require(`./assets/room${idx}.jpg`)">
-        
+        <img :src=item.image>
       </div>
-      <h4 @click="openModal" class="product-item-name">{{ item.name }}</h4>
+     <h4 @click="openModal(idx)" class="product-item-name">{{ item.title }}</h4>
       <p>{{ item.price }}</p>
       <button @click="increase(idx)">허위매물 신고</button>
       <span>신고 수 : {{item.reported}}</span>
     </div>
-
-    
   </div>
+
 </template>
 
 
 
 <script>
+//import 작명 from '경로';
+import productListData from './data.js';
+
 export default {
   name: "App",
-  // 필요한 데이터는 data() 바구니에 넣어줘야함.
-  // 이 데이터 저장 공간을 state라고한다.
-  // ui의 상태를 저장하는 공간이기도 함.
   data() {
     return {
       modalIsOepn: false,
-      productList: [
-        {
-          name : "역삼동원룸",
-          price: "10만원",
-          reported: 0,
-        },
-        {
-          name: "천호동원룸",
-          price: "50만원",
-          reported: 0,
-        },
-        {
-          name: "마포구원룸",
-          price: "100만원",
-          reported: 0,
-        }
-    ],
+      productList: productListData,
       menuItem: ['Home', 'About', 'Products'],
+      content: '상세페이지 설명 영역입니다.'
     };
   },
 
-  // 필요한 함수는 method 바구니에 정의해준다.
-  // data에 있는 자료를 사용하고 싶을때는 this.자료명 으로 정의 해줘야함! 
   methods: {
     increase(idx){
       this.productList[idx].reported++;
     },
 
-    // 모달 열기 함수 추가
-    openModal() {
+    openModal(idx) {
       this.modalIsOepn = true;
+      this.content = this.productList[idx].content;
     },
 
     closeModal(){

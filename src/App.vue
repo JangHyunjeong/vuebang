@@ -6,7 +6,6 @@
     </div>
   </div>
 
-
   <DiscountBanner/>
   
   <!-- 
@@ -35,21 +34,24 @@
   컴포넌트 만들때 잘 생각해서 만들어야해 - props를 어떻게 관리해야할지 골치아파짐 
   1. data만들때, 부모도 쓰는 데이터라면, 부모 컴포넌트에 만들어두셈
   -> data를 상위로 전송하는게 더 어렵기 때문 ㅜ
+
+
+  ##props 기타
+  1. props 보낼때 다양한 자료형 입력 가능
+  <PopupModal :데이터이름="[1,2,3,]" />
+  <PopupModal 데이터이름="안녕하세요" />
+  <PopupModal :데이터이름="1234" />
+  - 콜론을 안붙이면 문자로 전달
+
+  3. 오브젝트도 한꺼번에 보내서 쓸 수 있다.
+  <PopupModal v-bind="오브젝트" />
+  = 
+  <PopupModal :이름="오브젝트.name" :나이="오브젝트.age" />
   -->
 
-  <PopupModal :productList="productList" :modalIdx="modalIdx" :modalIsOepn="modalIsOepn" :closeModal="closeModal"/>
+    <PopupModal :productList="productList" :modalIdx="modalIdx" :modalIsOepn="modalIsOepn" :closeModal="closeModal"/>
 
-  <div class="product-list">
-    <div v-for="(item, idx) in productList" :key="item.id" class="product-item">
-      <div class="product-item-img">
-        <img :src=item.image>
-      </div>
-     <h4 @click="openModal(idx)" class="product-item-name">{{ item.title }}</h4>
-      <p>{{ item.price }}</p>
-      <button @click="increase(idx)">허위매물 신고</button>
-      <span>신고 수 : {{item.reported}}</span>
-    </div>
-  </div>
+    <ProductCard :product="productList[idx]" :modalIdx="modalIdx" :modalIsOepn="modalIsOepn" v-for="(item, idx) in productList" :key="idx"/>
 
 </template>
 
@@ -59,6 +61,7 @@
 import productListData from './data.js';
 import DiscountBanner from './components/DiscountBanner';  // 왼쪽은 자유작명
 import PopupModal from './components/PopupModal';
+import ProductCard from './components/ProductCard';
 
 export default {
   name: "App",
@@ -90,7 +93,8 @@ export default {
 
   components:{ 
     DiscountBanner: DiscountBanner,
-    PopupModal
+    PopupModal,
+    ProductCard
   },
 };
 </script>
@@ -125,36 +129,4 @@ button {
   color: white;
   padding: 10px;
 }
-
-.product-list {
-  width: 500px;
-  margin: 0 auto;
-}
-.product-item {
-  margin: 60px;
-}
-.product-item-img {
-  width: 100%;
-  height: 0;
-  padding-bottom: 60%;
-  position: relative;
-  margin-bottom: 10px;
-}
-.product-item-img img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  object-fit: cover;
-}
-.product-item-name {
-  cursor: pointer;
-  margin-bottom: 5px;
-}
-.product-item p {
-   margin-bottom: 5px
-}
-
 </style>

@@ -8,10 +8,14 @@
 
   <div class="modal-wrap" v-if="modalIsOepn">
     <div class="modal">
-      <h4>상세 페이지
+      <h4>{{ productList[modalIdx].title }}
         <button @click="closeModal">닫기</button>
-      </h4>  
-      <p>{{content}}</p>
+      </h4> 
+      <div class="product-item-img">
+        <img :src=productList[modalIdx].image>
+      </div>
+      <p>{{ productList[modalIdx].price }}</p>
+      <p>{{ productList[modalIdx].content }}</p>
     </div>
   </div>
 
@@ -42,7 +46,7 @@ export default {
       modalIsOepn: false,
       productList: productListData,
       menuItem: ['Home', 'About', 'Products'],
-      content: '상세페이지 설명 영역입니다.'
+      modalIdx: 0,
     };
   },
 
@@ -53,7 +57,7 @@ export default {
 
     openModal(idx) {
       this.modalIsOepn = true;
-      this.content = this.productList[idx].content;
+      this.modalIdx = idx;
     },
 
     closeModal(){

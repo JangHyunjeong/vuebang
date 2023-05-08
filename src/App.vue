@@ -6,6 +6,15 @@
     </div>
   </div>
 
+  <!-- 
+  #1. 컴포넌트 문법 왜씀?
+  1. 구조 예뻐보일라고 
+  2. 재사용성이 좋음. (반복적으로 등장하는 비슷한 UI 어디서든 간단하게 사용가능)
+  
+  -->
+
+  <DiscountBanner/>
+
   <div class="modal-wrap" v-if="modalIsOepn">
     <div class="modal">
       <h4>{{ productList[modalIdx].title }}
@@ -36,11 +45,17 @@
 
 
 <script>
-//import 작명 from '경로';
+// component 파일 가져다 쓴느법
+// 1. vue 파일 import
+// 2. 등록하고 (components 에)
+// 3. 쓰기
+
 import productListData from './data.js';
+import DiscountBanner from './components/DiscountBanner';  // 왼쪽은 자유작명
 
 export default {
   name: "App",
+
   data() {
     return {
       modalIsOepn: false,
@@ -64,7 +79,11 @@ export default {
       this.modalIsOepn = false;
     }
   },
-  components: {},
+
+  components:{ 
+    DiscountBanner: DiscountBanner  // 왼쪽은 자유작명
+    // DiscountBanner 양 항이 같으면 하나만 써도 됨
+  },
 };
 </script>
 
@@ -161,4 +180,5 @@ button {
 .product-item p {
    margin-bottom: 5px
 }
+
 </style>

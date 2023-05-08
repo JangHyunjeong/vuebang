@@ -3,9 +3,12 @@
       <div class="product-item-img">
         <img :src=product.image>
       </div>
-    <h4 @click="this.$parent.openModal(idx)" class="product-item-name">{{ product.title }}</h4>
+
+      <!-- 부모야 이거좀 정의해서 수행해줘
+     $emit('작명', 데이터) -->
+    <h4 @click="$emit('openModal', product.id)" class="product-item-name">{{ product.title }}</h4>
       <p>{{ product.price }}</p>
-      <button @click="this.$parent.increase(idx)">허위매물 신고</button>
+      <button @click="$emit('increase', product.id)">허위매물 신고</button>
       <span>신고 수 : {{product.reported}}</span>
   </div>
 </template>

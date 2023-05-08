@@ -11,9 +11,26 @@
   1. UI의 현재 상태를 데이터로 저장해둠
   2. 데이터에 따라 UI가 어떻게 보일지 작성
   
+  
   #2. v-if
+  1. 기본형태
   <div v-if="조건식">
   조건식이 참일때만, 해당 엘리먼트를 마크업
+ 
+ 
+  2. v-if와 함께 사용할 수 있는것
+  <div v-if="조건식">
+    안녕하세요
+  </div>
+
+  <div v-else="조건식">
+    안녕하세요
+  </div>
+
+  <div v-else>
+    안녕하세요
+  </div>
+
   -->
 
   <div class="modal-wrap" v-if="modalIsOepn">

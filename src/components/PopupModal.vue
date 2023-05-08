@@ -3,7 +3,7 @@
   <div class="modal-wrap" v-if="modalIsOepn">
     <div class="modal">
       <h4>{{ productList[modalIdx].title }}
-        <button @click="this.$parent.closeModal">닫기</button>
+        <button @click="$emit('closeModal')">닫기</button>
       </h4> 
       <div class="product-item-img">
         <img :src=productList[modalIdx].image>

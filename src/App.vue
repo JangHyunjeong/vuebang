@@ -7,7 +7,7 @@
   </div>
 
   <DiscountBanner/>
-    <PopupModal :productList="productList" :modalIdx="modalIdx" :modalIsOepn="modalIsOepn" :closeModal="closeModal"/>
+    <PopupModal @closeModal="closeModal" :productList="productList" :modalIdx="modalIdx" :modalIsOepn="modalIsOepn" :closeModal="closeModal"/>
 
     <!-- emit으로 보낸 이벤트는 아래와같이 수정
       $event는 자식에서 보낸 데이터는 이렇게 받아올 수 있다. 

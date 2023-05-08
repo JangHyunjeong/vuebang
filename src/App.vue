@@ -1,32 +1,43 @@
 <template>
   <div>
-    <h2>5. import/export</h2>
+    <h2>7. props</h2>
     <div class="menu">
         <a v-for="(item, idx) in menuItem" :key="idx">{{ item }}</a>
     </div>
   </div>
 
-  <!-- 
-  #1. 컴포넌트 문법 왜씀?
-  1. 구조 예뻐보일라고 
-  2. 재사용성이 좋음. (반복적으로 등장하는 비슷한 UI 어디서든 간단하게 사용가능)
-  
-  -->
 
   <DiscountBanner/>
+  
+  <!-- 
+  #1. Props
+  * 자식 컴포넌트가 부모가 가진 데이터 쓰고싶으면 props문법으로 전송해야함. 
+  * props 받아온거는 read-only임. 받아온거 자식에서 수정하면 큰일남
 
-  <div class="modal-wrap" v-if="modalIsOepn">
-    <div class="modal">
-      <h4>{{ productList[modalIdx].title }}
-        <button @click="closeModal">닫기</button>
-      </h4> 
-      <div class="product-item-img">
-        <img :src=productList[modalIdx].image>
-      </div>
-      <p>{{ productList[modalIdx].price }}</p>
-      <p>{{ productList[modalIdx].content }}</p>
-    </div>
-  </div>
+  * 전송하는법
+    1. 데이터 보내고
+    - 부모 vue파일에서 아래 형식으로 보내면됨
+    * 형식
+     <PopupModal :데이터이름="데이터이름" />
+     <PopupModal v-bind:데이터이름="데이터이름" />
+
+    2. 등록하고
+    - 자식 vue 파일에서 props에 등록하면 됨
+
+    3. 쓰셈
+    - 그냥 쓰셈.
+    
+    * 번외
+    부모의 함수를 쓰고싶다면.. 함수는 보내지 않고, this.$parent.함수명을 사용하셈
+  -->
+
+  <!--
+  컴포넌트 만들때 잘 생각해서 만들어야해 - props를 어떻게 관리해야할지 골치아파짐 
+  1. data만들때, 부모도 쓰는 데이터라면, 부모 컴포넌트에 만들어두셈
+  -> data를 상위로 전송하는게 더 어렵기 때문 ㅜ
+  -->
+
+  <PopupModal :productList="productList" :modalIdx="modalIdx" :modalIsOepn="modalIsOepn" :closeModal="closeModal"/>
 
   <div class="product-list">
     <div v-for="(item, idx) in productList" :key="item.id" class="product-item">
@@ -45,17 +56,14 @@
 
 
 <script>
-// component 파일 가져다 쓴느법
-// 1. vue 파일 import
-// 2. 등록하고 (components 에)
-// 3. 쓰기
-
 import productListData from './data.js';
 import DiscountBanner from './components/DiscountBanner';  // 왼쪽은 자유작명
+import PopupModal from './components/PopupModal';
 
 export default {
   name: "App",
 
+  // 데이터는 한곳에 보관함. 그리고 필요하면 가져다 씀 -> props 이용
   data() {
     return {
       modalIsOepn: false,
@@ -81,8 +89,8 @@ export default {
   },
 
   components:{ 
-    DiscountBanner: DiscountBanner  // 왼쪽은 자유작명
-    // DiscountBanner 양 항이 같으면 하나만 써도 됨
+    DiscountBanner: DiscountBanner,
+    PopupModal
   },
 };
 </script>
@@ -99,38 +107,6 @@ body {
 }
 button {
   cursor: pointer;
-}
-.modal-wrap {
-  width: 100%;
-  height: 100%;
-  padding: 20px;
-  background-color: rgba(0,0,0,0.5);
-  position: fixed;
-  z-index: 100;
-  top: 0;
-  left: 0;
-}
-.modal {
-  width: 100%;
-  min-height: 200px;
-  background-color: white;
-  border-radius: 8px;
-  padding: 20px;
-}
-.modal h4 {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 50px;
-}
-.modal button {
-  display: block;
-  width: 50px;
-  height: 30px;
-  background: black;
-  color: #fff;
-  font-size: 14px;
-  border: 0;
-  border-radius: 5px;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

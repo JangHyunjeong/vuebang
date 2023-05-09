@@ -8,39 +8,15 @@
       <div class="product-item-img">
         <img :src=productList[modalIdx].image>
       </div>
+
+      할부개월 : 
+      <!-- <input v-model.number="month" /> -->
+
+      <!-- ** 한글의 경우, v-model과 watch사용시, 실시간 데이터 확인이 어렵다 (IME) 이러너 경우, @input 사용하여, 실시가나 데이터를 확인할 수 있다. -->
+      <input @input="month = $event.target.value" :value=month />
+      
       <!-- 
-      #1. input 안에 쓸만한 이벤트
-      1. @input="" 
-      : 인풋 안에다가 입력할 때 마다 js 실행해주세요
-
-      2. @change=""
-      : 입력하고 커서 다른데 찍으면 js 실행
-    
-      #2. $event
-      function(e){} 에서 파라미터 e 와 같은 역할
-
-      $event.target.value 현재 여기에서 나온 값
-    
-    
-      #3. input에 입력한 내용 받아오기
-      1. 
-      <input @input="month = $event.target.value">
-      
-      2. 위의 코드의 축약버전 -->
-      할부개월 : <input v-model.number="month" />
-      
-
-      <!-- 3. input 이외에도 v-model 사용가능
-      <textarea v-model="month"></textarea>
-
-      <select v-model="month">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-      </select>
-
-      <input type="checkbox" v-model="month" />
-      - true, false로 값 반환 -->
+      <input v-model.number="month" type="range" min="1" max="12" /> -->
 
       <p>{{ month }}개월 선택함 : {{ productList[modalIdx].price * month }}</p>
       <p>{{ productList[modalIdx].content }}</p>
@@ -51,11 +27,26 @@
 <script>
 export default {
   name : 'PopupModal',
-  // 부모로부터 전달받은 데이터 등록
-  // props : {데이터이름 : 자료형이름(Object, Array, Number, String...)}
   data(){
     return{
       month : 1,
+    }
+  },
+  /* 데이터 감시하려면 
+  watch:{
+    감시할데이터(){}
+  }*/
+  watch : {
+    // month라는 데이터가 변할때마다 watcher도 실행됨
+    month(value){  // month(value, b) 파라미터는 2개까지 입력 가능한다. value: 변경 후 데이터, b: 변경 전 데이터
+      if(isNaN(value) == true || value == ' ') {
+        alert('숫자만 입력해주세요');
+        this.month = 1;
+        value = 1;
+      }
+      if(value < 1 || value > 12) {
+        alert('1~12 사이의 숫자를 입력해주세요')
+      }
     }
   },
   props : {

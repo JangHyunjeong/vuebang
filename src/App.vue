@@ -1,18 +1,16 @@
 <template>
   <div>
-    <h2>8. custom event</h2>
+    <h2>9. v-model</h2>
     <div class="menu">
         <a v-for="(item, idx) in menuItem" :key="idx">{{ item }}</a>
     </div>
   </div>
 
   <DiscountBanner/>
-    <PopupModal @closeModal="closeModal" :productList="productList" :modalIdx="modalIdx" :modalIsOepn="modalIsOepn" :closeModal="closeModal"/>
+  
+  <PopupModal @closeModal="closeModal" :productList="productList" :modalIdx="modalIdx" :modalIsOepn="modalIsOepn" :closeModal="closeModal"/>
 
-    <!-- emit으로 보낸 이벤트는 아래와같이 수정
-      $event는 자식에서 보낸 데이터는 이렇게 받아올 수 있다. 
-    @openModal="modalIsOepn = true; modalIdx = $event" -->
-    <ProductCard @openModal="openModal($event)" @increase="increase($event)" :product="productList[idx]" :modalIdx="modalIdx" :modalIsOepn="modalIsOepn" v-for="(item, idx) in productList" :key="idx"/>
+  <ProductCard @openModal="openModal($event)" @increase="increase($event)" :product="productList[idx]" :modalIdx="modalIdx" :modalIsOepn="modalIsOepn" v-for="(item, idx) in productList" :key="idx"/>
 
 </template>
 

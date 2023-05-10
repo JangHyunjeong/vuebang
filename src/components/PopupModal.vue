@@ -30,7 +30,7 @@
         할부개월 : 
         <!-- <input v-model.number="month" /> -->
 
-        <!-- ** 한글의 경우, v-model과 watch사용시, 실시간 데이터 확인이 어렵다 (IME) 이러너 경우, @input 사용하여, 실시가나 데이터를 확인할 수 있다. -->
+        <!-- ** 한글의 경우, v-model과 watch사용시, 실시간 데이터 확인이 어렵다 (IME) 이러너 경우, @input 사용하여, 실시간 데이터를 확인할 수 있다. -->
         <input @input="month = $event.target.value" :value=month />
         
         <!-- 
@@ -65,10 +65,22 @@ export default {
         value = 1;
       }
       if(value < 1 || value > 12) {
-        alert('1~12 사이의 숫자를 입력해주세요')
+        alert('1~12 사이의 숫자를 입력해주세요');
+        value = 1;
       }
     }
   },
+
+  // 이런식으로도 쓸수있음
+  // methods: {
+  //   checkMonth(e) {
+  //     this.month = e;
+  //     if(this.month == 2) {
+  //       alert('2는 안됌');
+  //       this.month = 1;
+  //     }
+  //   }
+  // },
   props : {
     productList : Array,
     modalIdx: Number,
